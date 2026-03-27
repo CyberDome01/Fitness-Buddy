@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gym Plans — Beast Mode &amp; Female</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Rajdhani:wght@400;500;600;700&amp;family=Playfair+Display:ital,wght@0,700;0,900;1,700&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* ═══════════════════════════════════════════
+   BEAST MODE THEME
+═══════════════════════════════════════════ */
+body.beast {
+  --bg:       #0a0a0b;
+  --surface:  #111114;
+  --card:     #161619;
+  --card2:    #1c1c21;
+  --border:   #2a2a33;
+  --border2:  #333340;
+  --accent:   #f97316;
+  --accent2:  #fb923c;
+  --accent-s: rgba(249,115,22,0.10);
+  --accent-b: rgba(249,115,22,0.18);
+  --blue:     #3b82f6;
+  --blue-s:   rgba(59,130,246,0.10);
+  --green:    #22c55e;
+  --green-s:  rgba(34,197,94,0.09);
+  --text:     #f0f0f5;
+  --muted:    #666680;
+  --label:    #a0a0b8;
+  --hero-from:#1a0800;
+  --hero-mid: #0a0a0b;
+  --hero-to:  #080d1a;
+  --tag-fw-bg: rgba(59,130,246,0.12);
+  --tag-fw-c:  #60a5fa;
+  --tag-fw-b:  rgba(59,130,246,0.25);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ═══════════════════════════════════════════
+   IKU PLAN THEME
+═══════════════════════════════════════════ */
+body.iku {
+  --bg:       #fdf8f5;
+  --surface:  #ffffff;
+  --card:     #fffcfa;
+  --card2:    #fdf5f0;
+  --border:   #ede5df;
+  --border2:  #e0d5ce;
+  --accent:   #c4546a;
+  --accent2:  #9e3550;
+  --accent-s: rgba(196,84,106,0.09);
+  --accent-b: rgba(196,84,106,0.16);
+  --blue:     #6b8f71;
+  --blue-s:   rgba(107,143,113,0.10);
+  --green:    #6b8f71;
+  --green-s:  rgba(107,143,113,0.09);
+  --text:     #1e1612;
+  --muted:    #9e8e85;
+  --label:    #5c4a42;
+  --hero-from:#2b0d17;
+  --hero-mid: #1a0a0e;
+  --hero-to:  #0f0d15;
+  --tag-fw-bg: rgba(201,154,78,0.12);
+  --tag-fw-c:  #c99a4e;
+  --tag-fw-b:  rgba(201,154,78,0.28);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ═══════════════════════════════════════════
+   PLAN SWITCHER (top bar)
+═══════════════════════════════════════════ */
+.switcher {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #050506;
+  border-bottom: 1px solid #1e1e26;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 0;
+  height: 52px;
+}
+.switcher-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #444;
+  margin-right: 24px;
+  flex-shrink: 0;
+}
+.switch-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  height: 52px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #555;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  position: relative;
+  top: 1px;
+}
+.switch-btn:hover { color: #888; }
+.switch-btn.active-beast {
+  color: #f97316;
+  border-bottom-color: #f97316;
+}
+.switch-btn.active-iku {
+  color: #c4546a;
+  border-bottom-color: #c4546a;
+}
+.switch-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-beast { background: #f97316; }
+.dot-iku   { background: #c4546a; }
+
+/* ═══════════════════════════════════════════
+   PLAN PANELS
+═══════════════════════════════════════════ */
+.plan-panel { display: none; }
+.plan-panel.active { display: block; }
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  background: linear-gradient(155deg, var(--hero-from) 0%, var(--hero-mid) 50%, var(--hero-to) 100%);
+  padding: 52px 24px 44px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-glow {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.beast .hero-glow {
+  background:
+    radial-gradient(ellipse 65% 55% at 25% 50%, rgba(249,115,22,0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 45% at 75% 50%, rgba(59,130,246,0.12) 0%, transparent 65%);
+}
+.iku .hero-glow {
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 50%, rgba(196,84,106,0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 50% at 80% 50%, rgba(107,143,113,0.15) 0%, transparent 65%);
+}
+.hero-inner { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 100px;
+  padding: 5px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.beast .hero-badge {
+  background: rgba(249,115,22,0.15);
+  border: 1px solid rgba(249,115,22,0.3);
+  color: #fdba74;
+}
+.iku .hero-badge {
+  background: rgba(196,84,106,0.15);
+  border: 1px solid rgba(196,84,106,0.3);
+  color: #f9a8b8;
+}
+
+.hero-h1 {
+  line-height: 0.95;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.beast .hero-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(58px, 14vw, 110px);
+  letter-spacing: 4px;
+}
+.iku .hero-h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(40px, 10vw, 80px);
+  letter-spacing: -1px;
+}
+.hero-h1 span { display: block; }
+.beast .hero-h1 span { color: #f97316; }
+.iku   .hero-h1 span { color: #f9a8b8; font-style: italic; }
+
+.hero-sub {
+  color: rgba(255,255,255,0.48);
+  font-size: 14px;
+  max-width: 420px;
+  margin: 0 auto 28px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.hero-stats {
+  display: inline-flex;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.hstat {
+  padding: 12px 22px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  min-width: 80px;
+}
+.hstat:last-child { border-right: none; }
+.hstat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  display: block;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.beast .hstat-n { color: #f97316; }
+.iku   .hstat-n { color: #f9a8b8; }
+.hstat-l {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ═══════════════════════════════════════════
+   WEEK SCHEDULE STRIP
+═══════════════════════════════════════════ */
+.week-strip {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.week-strip::-webkit-scrollbar { display: none; }
+.wday {
+  flex: 1;
+  min-width: 72px;
+  padding: 12px 6px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  background: none;
+  border-top: none; border-left: none; border-bottom: none;
+  font-family: inherit;
+}
+.wday:last-child { border-right: none; }
+.wday:hover { background: var(--accent-s); }
+.wday.is-rest { opacity: 0.45; cursor: default; }
+.wday.is-rest:hover { background: none; }
+.wd-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 0 auto 5px;
+}
+.is-rest .wd-dot { background: var(--green); }
+.wd-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+}
+.wd-focus {
+  font-size: 9px;
+  color: var(--accent);
+  display: block;
+  margin-top: 2px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.is-rest .wd-focus { color: var(--green); }
+
+/* ═══════════════════════════════════════════
+   CONTAINER
+═══════════════════════════════════════════ */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 20px 64px;
+}
+
+/* ═══════════════════════════════════════════
+   DAY SECTION
+═══════════════════════════════════════════ */
+.day-section { margin-bottom: 52px; scroll-margin-top: 60px; }
+
+.day-hdr {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 20px;
+  position: relative;
+}
+.day-hdr::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 56px; height: 2px;
+  background: var(--accent);
+  transition: background 0.3s;
+}
+.day-hdr.rest-hdr::after { background: var(--green); }
+
+.day-big-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 60px;
+  line-height: 1;
+  color: var(--border2);
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.beast .day-big-num { font-size: 60px; }
+.iku .day-big-num {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 56px;
+  color: var(--border);
+}
+.day-meta {}
+.day-sup {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+.day-title {
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+.beast .day-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+.iku .day-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+}
+.day-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.4px;
+}
+.chip-a { background: var(--accent-s); color: var(--accent); border: 1px solid var(--accent-b); }
+.chip-g { background: var(--green-s); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+.chip-b { background: var(--blue-s); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+
+/* ═══════════════════════════════════════════
+   REST CARD
+═══════════════════════════════════════════ */
+.rest-card {
+  background: var(--green-s);
+  border: 1px solid rgba(34,197,94,0.18);
+  border-radius: 14px;
+  padding: 24px 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.iku .rest-card {
+  background: rgba(107,143,113,0.08);
+  border-color: rgba(107,143,113,0.2);
+}
+.rest-ico { font-size: 30px; flex-shrink: 0; margin-top: 2px; }
+.rest-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 5px;
+  letter-spacing: 0.5px;
+}
+.rest-card p { font-size: 13px; color: var(--label); line-height: 1.6; }
+.rest-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.rtag {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+.iku .rtag {
+  background: rgba(107,143,113,0.1);
+  border-color: rgba(107,143,113,0.2);
+  color: #6b8f71;
+}
+
+/* ═══════════════════════════════════════════
+   EXERCISE CARDS
+═══════════════════════════════════════════ */
+.exercises { display: flex; flex-direction: column; gap: 10px; }
+
+.ex-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.beast .ex-card:hover {
+  border-color: rgba(249,115,22,0.35);
+  box-shadow: 0 0 0 1px rgba(249,115,22,0.08), 0 4px 20px rgba(0,0,0,0.3);
+}
+.iku .ex-card:hover {
+  border-color: rgba(196,84,106,0.3);
+  box-shadow: 0 4px 16px rgba(196,84,106,0.1);
+}
+
+.ex-top {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px 12px;
+  align-items: flex-start;
+}
+.ex-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--border2);
+  flex-shrink: 0;
+  width: 22px;
+  text-align: right;
+  padding-top: 1px;
+  letter-spacing: 0.5px;
+}
+.iku .ex-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+.ex-body { flex: 1; min-width: 0; }
+.ex-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+.beast .ex-name { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
+.iku .ex-name { font-family: 'DM Sans', sans-serif; }
+.ex-machine {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.tag-fw {
+  display: inline-block;
+  background: var(--tag-fw-bg);
+  border: 1px solid var(--tag-fw-b);
+  color: var(--tag-fw-c);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.tag-glute {
+  display: inline-block;
+  background: rgba(196,84,106,0.12);
+  border: 1px solid rgba(196,84,106,0.25);
+  color: #9e3550;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.tag-opt {
+  display: inline-block;
+  background: var(--accent-s);
+  border: 1px solid var(--accent-b);
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.ex-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pill {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--label);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.pill .pk { color: var(--muted); font-weight: 500; font-size: 10px; }
+.pill.r { background: var(--green-s); border-color: rgba(34,197,94,0.2); color: var(--green); }
+.pill.r .pk { color: rgba(34,197,94,0.6); }
+.iku .pill.r { background: rgba(107,143,113,0.09); border-color: rgba(107,143,113,0.22); color: #6b8f71; }
+.iku .pill.r .pk { color: rgba(107,143,113,0.55); }
+
+.ex-how {
+  border-top: 1px solid var(--border);
+  padding: 11px 16px 11px 50px;
+  font-size: 12.5px;
+  color: var(--label);
+  line-height: 1.65;
+  background: var(--card2);
+}
+.iku .ex-how { font-family: 'DM Sans', sans-serif; font-size: 13px; }
+
+/* ═══════════════════════════════════════════
+   EXERCISE IMAGES
+═══════════════════════════════════════════ */
+.ex-img-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--card2);
+  border-top: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ex-img-row::-webkit-scrollbar { display: none; }
+.ex-img-wrap {
+  flex-shrink: 0;
+  width: 120px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  position: relative;
+}
+.ex-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ex-img-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.6);
+  color: rgba(255,255,255,0.8);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .ex-img-wrap { width: 100px; height: 66px; }
+}
+
+/* ═══════════════════════════════════════════
+   TIP BOX
+═══════════════════════════════════════════ */
+.tip {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-s);
+  border-radius: 0 10px 10px 0;
+  padding: 13px 16px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--label);
+  line-height: 1.55;
+}
+.tip strong {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.iku .tip strong { font-family: 'Playfair Display', serif; font-size: 13px; text-transform: none; }
+
+/* ═══════════════════════════════════════════
+   SECTION DIVIDER
+═══════════════════════════════════════════ */
+.sdiv {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.sdiv::before, .sdiv::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+.sdiv-txt {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--surface);
+}
+.footer strong { color: var(--accent); }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .ex-how { padding-left: 16px; }
+  .hero { padding: 40px 16px 36px; }
+  .hstat { padding: 10px 14px; min-width: 64px; }
+  .switcher-logo { display: none; }
+}
+</style>
+</head>
+<body class="beast">
+<!-- ════════════════════════
+     PLAN SWITCHER
+════════════════════════ -->
+<nav class="switcher">
+<div class="switcher-logo">GYM APP</div>
+<button class="switch-btn active-beast" id="btn-beast" onclick="switchPlan('beast')">
+<span class="switch-dot dot-beast"></span> Beast Mode
+  </button>
+<button class="switch-btn" id="btn-iku" onclick="switchPlan('iku')">
+<span class="switch-dot dot-iku"></span> Female
+  </button>
+</nav>
+<!-- ════════════════════════════════════════════════════════
+     ██████  BEAST MODE PANEL
+════════════════════════════════════════════════════════ -->
+<div class="plan-panel active" id="panel-beast">
+<header class="hero">
+<div class="hero-glow"></div>
+<div class="hero-inner">
+<div class="hero-badge">🔥 Muscle &amp; Bulk · Week 1 · Planet Fitness</div>
+<h1 class="hero-h1">
+<span>BEAST</span>
+<span>MODE</span>
+</h1>
+<p class="hero-sub">5-day muscle-building split. Machines + free weights. Built for mass, strength, and a V-taper physique.</p>
+<div class="hero-stats">
+<div class="hstat"><span class="hstat-n">5</span><span class="hstat-l">Days/Week</span></div>
+<div class="hstat"><span class="hstat-n">3–4</span><span class="hstat-l">Sets Each</span></div>
+<div class="hstat"><span class="hstat-n">8–12</span><span class="hstat-l">Reps (Bulk)</span></div>
+<div class="hstat"><span class="hstat-n">60–90s</span><span class="hstat-l">Rest</span></div>
+</div>
+</div>
+</header>
+<!-- Week Strip -->
+<nav class="week-strip">
+<a class="wday" href="#b-d1"><span class="wd-dot"></span><span class="wd-name">Mon</span><span class="wd-focus">Chest<br/>+ Tris</span></a>
+<a class="wday" href="#b-d2"><span class="wd-dot"></span><span class="wd-name">Tue</span><span class="wd-focus">Back<br/>+ Bis</span></a>
+<div class="wday is-rest"><span class="wd-dot"></span><span class="wd-name">Wed</span><span class="wd-focus">Rest</span></div>
+<a class="wday" href="#b-d4"><span class="wd-dot"></span><span class="wd-name">Thu</span><span class="wd-focus">Legs</span></a>
+<a class="wday" href="#b-d5"><span class="wd-dot"></span><span class="wd-name">Fri</span><span class="wd-focus">Shoulders</span></a>
+<a class="wday" href="#b-d6"><span class="wd-dot"></span><span class="wd-name">Sat</span><span class="wd-focus">Full<br/>Body</span></a>
+<div class="wday is-rest"><span class="wd-dot"></span><span class="wd-name">Sun</span><span class="wd-focus">Rest</span></div>
+</nav>
+<main class="container">
+<!-- ── DAY 1: CHEST + TRIS ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 1 · Monday</span></div>
+<section class="day-section" id="b-d1">
+<div class="day-hdr">
+<div class="day-big-num">01</div>
+<div class="day-meta">
+<div class="day-sup">Day 1 · Push Day</div>
+<div class="day-title">CHEST &amp; TRICEPS</div>
+<div class="day-chips">
+<span class="chip chip-a">💪 Mass Builder</span>
+<span class="chip chip-b">~55 min</span>
+<span class="chip chip-g">5 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Dumbbell Bench Press <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">Flat Bench + Dumbbells</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 4</div>
+<div class="pill"><span class="pk">Reps</span> 8–10</div>
+<div class="pill r"><span class="pk">Rest</span> 90 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534368959876-26bf04f2c947?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Lie flat on the bench, dumbbells held at chest level, palms facing forward. Press both dumbbells up until your arms are nearly straight, then lower slowly back down to chest level — take 3 seconds on the way down. This is your main mass-builder for chest. The stretch you get with dumbbells is deeper than a barbell, which means more muscle fibers activated. <strong>Start lighter than you think — form first, weight second.</strong></div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Chest Press Machine</div>
+<div class="ex-machine">Selectorized Chest Press</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10–12</div>
+<div class="pill r"><span class="pk">Rest</span> 60–75 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534368959876-26bf04f2c947?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">After the dumbbell press, move to the machine to push more blood into the chest. Sit with your back flat, push handles forward until nearly extended, slow return. The machine stabilizes the weight so you can fully focus on squeezing the chest. After the dumbbell work, this will feel intense — that's exactly the point. Maximize the pump.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Pec Deck (Chest Fly)</div>
+<div class="ex-machine">Pec Deck / Butterfly Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534368959876-26bf04f2c947?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Forearms on the pads, bring them together in a hugging motion. At the point where they meet — squeeze hard for 1 second before releasing slowly. This isolation exercise carves detail into the center of the chest. For bulk, it adds fullness across the entire pec. Go lighter here — this is a finishing movement, not a strength test.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">Cable Tricep Pushdown</div>
+<div class="ex-machine">Cable Machine — Rope Attachment</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10–12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1583454155184-870a1f63aebc?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Stand at the cable station, rope at the top. Hold both ends of the rope, elbows tucked at your sides. Push down and slightly outward at the bottom — flaring the rope at the end maximizes tricep contraction. Slowly bend back to the start. Triceps make up 2/3 of your arm size — this is non-negotiable for arm mass.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Overhead Tricep Extension <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">Dumbbell (single, both hands)</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10–12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1583454155184-870a1f63aebc?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Sit on a bench, hold one dumbbell overhead with both hands cupped around one end. Lower it behind your head by bending at the elbows, feel the deep stretch in the long head of the tricep, then press back up. The overhead position targets the long head — the biggest part of the tricep and what gives arms that horseshoe thickness from behind.</div>
+</div>
+</div>
+<div class="tip"><strong>🔥 Day 1 Bulk Tip</strong>For mass, the eccentric (lowering) phase is where muscle damage — and therefore growth — happens most. Count 3 seconds on every downward movement. It feels harder but triggers significantly more hypertrophy than rushing through reps.</div>
+</section>
+<!-- ── DAY 2: BACK + BICEPS ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 2 · Tuesday</span></div>
+<section class="day-section" id="b-d2">
+<div class="day-hdr">
+<div class="day-big-num">02</div>
+<div class="day-meta">
+<div class="day-sup">Day 2 · Pull Day</div>
+<div class="day-title">BACK &amp; BICEPS</div>
+<div class="day-chips">
+<span class="chip chip-a">🏋️ V-Taper Builder</span>
+<span class="chip chip-b">~55 min</span>
+<span class="chip chip-g">5 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Lat Pulldown</div>
+<div class="ex-machine">Lat Pulldown Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 4</div>
+<div class="pill"><span class="pk">Reps</span> 8–10</div>
+<div class="pill r"><span class="pk">Rest</span> 90 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1597452485595-4e4853c2c1f2?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Grip slightly wider than shoulders. Pull the bar to your upper chest with your elbows driving down and back. Lean back slightly — about 15 degrees. At the bottom, hold for 1 second and squeeze your lats hard. The lat pulldown is the single most important exercise for building width. Wide back = V-taper. Do your heaviest set first while you're fresh.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Dumbbell Bent-Over Row <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">Flat Bench + Dumbbell</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10 each side</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Place one knee and one hand on the bench for support. Hold a dumbbell in the opposite hand, arm hanging straight down. Pull the dumbbell up toward your hip — elbow close to your body — then lower slowly. This builds the thickness of the mid-back (rhomboids, lower traps) which adds that 3D muscular look. Don't rotate your torso. Keep hips square.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Seated Row Machine</div>
+<div class="ex-machine">Seated Cable Row</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10–12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1597452485595-4e4853c2c1f2?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Pull to your lower stomach. Squeeze your shoulder blades together hard at the end of each rep — hold 1 second. Slow return. Three back exercises in a row means serious volume on your lats and rhomboids. This volume is exactly what forces muscle growth. By this third exercise your back should be feeling pumped.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">EZ Bar / Dumbbell Bicep Curl <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">EZ Curl Bar or Dumbbells</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10–12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1583454155184-870a1f63aebc?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Stand holding the EZ bar (or dumbbells) with an underhand grip. Curl up to your shoulders, squeeze the bicep at the top, then lower for 3 full seconds. Elbows stay fixed at your sides — don't let them drift forward. This is your primary bicep builder. The slow negative (lowering) is critical for adding mass to the bicep peak.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Hammer Curl <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">Dumbbells</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1583454155184-870a1f63aebc?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Same as a bicep curl but palms face each other (neutral grip) throughout the movement. This hits the brachialis — the muscle under the bicep — which when developed pushes the bicep up and makes your arm look dramatically thicker. Alternate arms or do both simultaneously. Keep it lighter and controlled. Great finisher.</div>
+</div>
+</div>
+<div class="tip"><strong>🔥 Day 2 Back Tip</strong>Most beginners fail to actually engage their back because they pull with their arms instead. Before every set, think "elbows to pockets" — driving your elbows down and back, not just pulling the bar. This one mental cue can double how much you feel your lats working.</div>
+</section>
+<!-- ── DAY 3: REST ── -->
+<div class="sdiv"><span class="sdiv-txt">Wednesday · Rest Day</span></div>
+<section class="day-section">
+<div class="day-hdr rest-hdr">
+<div class="day-big-num">03</div>
+<div class="day-meta">
+<div class="day-sup">Mid-Week Recovery</div>
+<div class="day-title">REST DAY</div>
+</div>
+</div>
+<div class="rest-card">
+<div class="rest-ico">⚡</div>
+<div>
+<h3>Strategic Rest — Don't Skip This</h3>
+<p>Two heavy training days back-to-back demand recovery before legs and shoulders. Muscle protein synthesis peaks 24–48 hours after training. Eat a high-protein meal today (1g per lb of bodyweight). Sleep 7–8 hours. Come back Thursday fully charged.</p>
+<div class="rest-tags">
+<span class="rtag">🥩 High protein</span>
+<span class="rtag">💧 Hydrate</span>
+<span class="rtag">😴 8 hrs sleep</span>
+<span class="rtag">🚶 Light walk OK</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ── DAY 4: LEGS ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 4 · Thursday</span></div>
+<section class="day-section" id="b-d4">
+<div class="day-hdr">
+<div class="day-big-num">04</div>
+<div class="day-meta">
+<div class="day-sup">Day 4 · Lower Body</div>
+<div class="day-title">LEGS — FULL LOWER BODY</div>
+<div class="day-chips">
+<span class="chip chip-a">🦵 Mass &amp; Power</span>
+<span class="chip chip-b">~55 min</span>
+<span class="chip chip-g">5 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Leg Press</div>
+<div class="ex-machine">Leg Press Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 4</div>
+<div class="pill"><span class="pk">Reps</span> 10–12</div>
+<div class="pill r"><span class="pk">Rest</span> 90 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Feet shoulder-width, mid-platform. Push through your full foot (not just toes) and drive the platform away until your legs are nearly straight. Lower slowly — take 3 seconds down. The leg press is your primary mass builder for quads, glutes, and hamstrings simultaneously. For bulking, gradually add plates week over week. Start with a weight you can handle for 12 clean reps.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Leg Extension</div>
+<div class="ex-machine">Leg Extension Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Extend legs to fully straight, hold the peak contraction for 1 full second, then lower for 3 seconds. This quad isolation adds the detail and sweep to the front thigh. For bulking, you want both the compound movement (leg press) AND isolation here to maximize quad hypertrophy.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Seated Leg Curl</div>
+<div class="ex-machine">Seated Leg Curl Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Curl heels toward the seat, squeeze hamstrings hard at the bottom for 1 second, then release slowly. Big legs aren't just quads — hamstrings and glutes together make up the back of the leg. Neglecting hamstrings creates imbalance and injury risk. Take the 3-second lowering seriously here.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">Hip Abductor Machine</div>
+<div class="ex-machine">Hip Abductor Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Pads on the outside of your knees, push legs apart and squeeze the glute med at full range. For men building mass, this stabilizes the hip during heavy compound movements and adds fullness to the outer glute — which makes legs look powerful from behind. Keep resistance light — this is a stability exercise.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Calf Raise Machine</div>
+<div class="ex-machine">Standing Calf Raise</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Full range — rise as high as possible, lower until heels drop below the platform for a complete stretch. Calves respond best to full range and a slow tempo. Don't bounce. Hold the peak for 1 second each rep. Calves are notoriously hard to grow — consistency and full range of motion are the only things that move them.</div>
+</div>
+</div>
+<div class="tip"><strong>🔥 Day 4 Leg Tip</strong>Leg day is where most bulk gains happen — your legs are the largest muscle group and training them releases the most growth hormone and testosterone. Push hard here. The discomfort is temporary. The mass is permanent.</div>
+</section>
+<!-- ── DAY 5: SHOULDERS ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 5 · Friday</span></div>
+<section class="day-section" id="b-d5">
+<div class="day-hdr">
+<div class="day-big-num">05</div>
+<div class="day-meta">
+<div class="day-sup">Day 5 · Upper Body</div>
+<div class="day-title">SHOULDERS — V-TAPER</div>
+<div class="day-chips">
+<span class="chip chip-a">🔺 Width Builder</span>
+<span class="chip chip-b">~50 min</span>
+<span class="chip chip-g">5 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Shoulder Press Machine</div>
+<div class="ex-machine">Selectorized Shoulder Press</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 4</div>
+<div class="pill"><span class="pk">Reps</span> 8–10</div>
+<div class="pill r"><span class="pk">Rest</span> 90 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1581009137042-c552e485697a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1589579234096-25b7ef21f0f7?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Set the seat so handles are at shoulder height. Press overhead until arms are nearly extended — hold 1 second — then lower slowly for 3 seconds. This is your primary shoulder mass builder. 4 sets here because shoulder width is the cornerstone of the V-taper. Heavier = wider. Push progressive overload on this one every week.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Dumbbell Lateral Raise <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">Dumbbells (light)</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12–15</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1581009137042-c552e485697a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1589579234096-25b7ef21f0f7?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Stand holding light dumbbells at your sides. Raise both arms out to the side to shoulder height — think of pouring water out of a jug (slightly forward tilt). Slow and controlled. Do NOT shrug. Lateral raises build the medial deltoid — the cap of the shoulder — which is the muscle that visually widens your frame the most. Use lighter weight than feels necessary.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Lateral Raise Machine</div>
+<div class="ex-machine">Lateral Raise / Deltoid Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1581009137042-c552e485697a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1589579234096-25b7ef21f0f7?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">After the dumbbell version, the machine allows a strict path to thoroughly fatigue the medial delt. Arms on pads, raise to shoulder height, lower slowly. Double lateral raise (free weight + machine) is an advanced technique for building wide shoulders — don't skip one of them.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">Cable Face Pull</div>
+<div class="ex-machine">Cable Machine — Rope Attachment (High)</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1581009137042-c552e485697a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1589579234096-25b7ef21f0f7?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Set the cable at face height, rope attachment. Step back, pull the rope toward your face while flaring your elbows out wide — like a double bicep pose. Hold for 1 second. This targets the rear deltoid and external rotators. Critical for shoulder health, posture, and the "3D" look of the shoulder from the side. Keep weight light — this is a health exercise as much as a cosmetic one.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Rear Delt Machine <span class="tag-opt">Optional</span></div>
+<div class="ex-machine">Pec Deck (Reverse)</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534368959876-26bf04f2c947?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Sit facing the pec deck backward. Grip the handles with arms in front of you, then pull them apart and back in a wide arc. This hammers the rear deltoid — one of the most underdeveloped muscles in beginners. Add this only if you have energy and are under 50 minutes. Skip without guilt if fatigued.</div>
+</div>
+</div>
+<div class="tip"><strong>🔥 Day 5 Shoulder Tip</strong>Wide shoulders make your waist look smaller without changing your waist at all — it's pure geometry. Every rep of lateral raises and shoulder press is an investment in that V-taper silhouette. It takes months to see, but it starts today.</div>
+</section>
+<!-- ── DAY 6: FULL BODY ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 6 · Saturday</span></div>
+<section class="day-section" id="b-d6">
+<div class="day-hdr">
+<div class="day-big-num">06</div>
+<div class="day-meta">
+<div class="day-sup">Day 6 · Full Body + Arms</div>
+<div class="day-title">FULL BODY &amp; ARM FINISHER</div>
+<div class="day-chips">
+<span class="chip chip-a">💥 Pump Day</span>
+<span class="chip chip-b">~55 min</span>
+<span class="chip chip-g">6 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Chest Press Machine</div>
+<div class="ex-machine">Selectorized Chest Press</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534368959876-26bf04f2c947?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Chest hit number two this week. Same weight as Monday or slightly heavier if it felt easy. Notice how much faster and more confident you set up the machine compared to Day 1 — that's your nervous system adapting. It's the beginning of real strength.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Lat Pulldown</div>
+<div class="ex-machine">Lat Pulldown Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1597452485595-4e4853c2c1f2?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Second back session. Pull to the upper chest, elbows driving down. Try to go slightly heavier than Tuesday's last set if possible. Two lat pulldown sessions per week is one of the fastest paths to building back width.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Leg Press</div>
+<div class="ex-machine">Leg Press Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 75 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Third leg press session of the week — your legs get 2 dedicated sessions plus this. That's high frequency for a beginner and will drive rapid leg development. Keep the same weight as Thursday or add 10 lbs if it felt manageable.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">EZ Bar Curl <span class="tag-fw">Free Weight</span></div>
+<div class="ex-machine">EZ Curl Bar</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1583454155184-870a1f63aebc?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Dedicated arm day finisher. Curl with a 3-second lowering phase. Your biceps have already been worked indirectly on back day — now you're targeting them directly for a second time this week. Two direct sessions per week is the sweet spot for arm growth.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Cable Tricep Pushdown</div>
+<div class="ex-machine">Cable Machine — Rope</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 10</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1583454155184-870a1f63aebc?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1590487988256-9ed24133863e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Second tricep session. Pushdown with the rope, flare at the bottom. Triceps + biceps both trained twice this week = noticeable arm pump by the end of this session. Arms respond extremely well to volume and frequency.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">6</div><div class="ex-body">
+<div class="ex-name">Ab Crunch Machine</div>
+<div class="ex-machine">Abdominal Crunch Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 30 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Finish strong with core work. Crunch slowly with a 1-second hold at peak contraction. Core training during a bulk gives you a strong foundation for all heavy lifts — a stable core protects the spine and allows you to push more weight on every compound movement.</div>
+</div>
+</div>
+<div class="tip"><strong>🔥 Week 1 Complete — Beast Mode Activated</strong>Write down every weight you used this week. Week 2 goal: add 5 lbs to at least 3 exercises. That's progressive overload — and it's the only mechanism that builds muscle long-term. You've laid the foundation. Now build on it.</div>
+</section>
+<!-- ── DAY 7: REST ── -->
+<div class="sdiv"><span class="sdiv-txt">Sunday · Rest Day</span></div>
+<section class="day-section">
+<div class="day-hdr rest-hdr">
+<div class="day-big-num">07</div>
+<div class="day-meta">
+<div class="day-sup">Full Recovery</div>
+<div class="day-title">REST DAY</div>
+</div>
+</div>
+<div class="rest-card">
+<div class="rest-ico">🏆</div>
+<div>
+<h3>Week 1 Done. Rest Hard.</h3>
+<p>5 training days completed. Your body needs this day to consolidate all the muscular adaptations you triggered this week. Eat big, sleep 8 hours, and come back Monday ready to add weight to every lift. The transformation has already begun at the cellular level — you just can't see it yet.</p>
+<div class="rest-tags">
+<span class="rtag">🥩 Eat at a calorie surplus</span>
+<span class="rtag">😴 8+ hrs sleep</span>
+<span class="rtag">📓 Log your weights</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">Planet Fitness Beast Mode · <strong>Week 1 of 8</strong> · Add weight every week. That's the whole secret.</footer>
+</div><!-- /panel-beast -->
+<!-- ════════════════════════════════════════════════════════
+     🌸  IKU PLAN PANEL
+════════════════════════════════════════════════════════ -->
+<div class="plan-panel" id="panel-iku">
+<header class="hero">
+<div class="hero-glow"></div>
+<div class="hero-inner">
+<div class="hero-badge">✦ Women's Plan · Week 1 · Planet Fitness</div>
+<h1 class="hero-h1">
+<span>Strong &amp; Toned</span>
+<span><em>IKU Plan</em></span>
+</h1>
+<p class="hero-sub">3-day machine program to build glutes, flatten your core, and tone your whole body.</p>
+<div class="hero-stats">
+<div class="hstat"><span class="hstat-n">3</span><span class="hstat-l">Days/Week</span></div>
+<div class="hstat"><span class="hstat-n">2–3</span><span class="hstat-l">Sets Each</span></div>
+<div class="hstat"><span class="hstat-n">12–15</span><span class="hstat-l">Reps Each</span></div>
+<div class="hstat"><span class="hstat-n">~45</span><span class="hstat-l">Min/Session</span></div>
+</div>
+</div>
+</header>
+<!-- Week Strip -->
+<nav class="week-strip">
+<a class="wday" href="#i-d1"><span class="wd-dot"></span><span class="wd-name">Mon</span><span class="wd-focus">Glutes<br/>&amp; Legs</span></a>
+<div class="wday is-rest"><span class="wd-dot"></span><span class="wd-name">Tue</span><span class="wd-focus">Rest</span></div>
+<a class="wday" href="#i-d2"><span class="wd-dot"></span><span class="wd-name">Wed</span><span class="wd-focus">Upper<br/>&amp; Core</span></a>
+<div class="wday is-rest"><span class="wd-dot"></span><span class="wd-name">Thu</span><span class="wd-focus">Rest</span></div>
+<a class="wday" href="#i-d3"><span class="wd-dot"></span><span class="wd-name">Fri</span><span class="wd-focus">Full<br/>Body</span></a>
+<div class="wday is-rest"><span class="wd-dot"></span><span class="wd-name">Sat</span><span class="wd-focus">Rest</span></div>
+<div class="wday is-rest"><span class="wd-dot"></span><span class="wd-name">Sun</span><span class="wd-focus">Rest</span></div>
+</nav>
+<main class="container">
+<!-- ── IKU DAY 1 ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 1 · Monday</span></div>
+<section class="day-section" id="i-d1">
+<div class="day-hdr">
+<div class="day-big-num">01</div>
+<div class="day-meta">
+<div class="day-sup">Day 1 · Lower Body Priority</div>
+<div class="day-title">Glutes, Legs &amp; Booty Burn</div>
+<div class="day-chips">
+<span class="chip chip-a">🍑 Glute Focus</span>
+<span class="chip chip-b">~45 min</span>
+<span class="chip chip-g">4 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Leg Press <span class="tag-glute">Glute Focus</span></div>
+<div class="ex-machine">Leg Press Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Place feet <strong>high and wide</strong> on the platform — this is the key to glute activation. Push through your heels, not your toes. Lower slowly to about 90 degrees, then drive back up and squeeze your glutes hard at the top of every rep. Start light — feeling the movement correctly matters more than the weight this week.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Hip Abductor Machine <span class="tag-glute">Glute Focus</span></div>
+<div class="ex-machine">Hip Abductor / Outer Thigh Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Pads on the <em>outside</em> of your knees. Push legs apart and pause at maximum range — squeeze the outer glute hard for 1 second before slowly returning. This targets the glute medius, which gives the upper-outer glute its shape and lift. Sit tall throughout. One of the most effective machines for the female physique.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Seated Leg Curl</div>
+<div class="ex-machine">Seated Leg Curl Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12–15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Curl your heels toward the seat, squeezing your hamstrings at the bottom. Hold 1 second, then release slowly. Strong hamstrings balance the leg and make glutes appear rounder and more defined. Don't rush — the slow return is where the muscle work happens.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">Calf Raise Machine</div>
+<div class="ex-machine">Standing Calf Raise</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 30 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Rise onto your toes as high as possible, pause for 1 second, then lower your heels completely below the platform for a full stretch. Full range beats bouncing every time. Toned calves visually elongate your legs — a beautiful finishing touch to lower body day.</div>
+</div>
+</div>
+<div class="tip"><strong>✦ Glute Activation Tip</strong>The secret to building glutes vs. quads is intent. Feet high and wide on the leg press, push through your heels, and squeeze your glutes at the top. This one cue changes everything. Also: before each set, do a quick mental squeeze of your glutes — this activates the mind-muscle connection that makes the exercise actually work.</div>
+</section>
+<!-- ── IKU REST TUE ── -->
+<div class="sdiv"><span class="sdiv-txt">Tuesday · Rest</span></div>
+<section class="day-section">
+<div class="day-hdr rest-hdr">
+<div class="day-big-num">—</div>
+<div class="day-meta">
+<div class="day-sup">Recovery</div>
+<div class="day-title">Rest Day</div>
+</div>
+</div>
+<div class="rest-card">
+<div class="rest-ico">🌿</div>
+<div>
+<h3>Rest &amp; Recover</h3>
+<p>Your legs and glutes worked hard — let them rebuild. Eat enough protein (chicken, Greek yogurt, eggs) to support muscle repair and glute growth. A gentle walk is perfectly fine.</p>
+<div class="rest-tags">
+<span class="rtag">🥗 High protein</span>
+<span class="rtag">💧 Hydrate</span>
+<span class="rtag">🚶‍♀️ Light walk OK</span>
+<span class="rtag">😴 Prioritize sleep</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ── IKU DAY 2 ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 2 · Wednesday</span></div>
+<section class="day-section" id="i-d2">
+<div class="day-hdr">
+<div class="day-big-num">02</div>
+<div class="day-meta">
+<div class="day-sup">Day 2 · Upper Body + Core</div>
+<div class="day-title">Arms, Back, Shoulders &amp; Core</div>
+<div class="day-chips">
+<span class="chip chip-a">💪 Tone &amp; Tighten</span>
+<span class="chip chip-b">~45 min</span>
+<span class="chip chip-g">5 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Lat Pulldown</div>
+<div class="ex-machine">Lat Pulldown Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12–15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1597452485595-4e4853c2c1f2?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Grip slightly wider than shoulders, pull the bar down to your upper chest, elbows driving down and back. Squeeze your back at the bottom, then slowly let it rise. A strong back improves posture dramatically — which makes your whole body look more toned and athletic, and creates a naturally slimmer-looking waist.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Seated Row Machine</div>
+<div class="ex-machine">Seated Cable Row</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12–15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1597452485595-4e4853c2c1f2?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Sit tall and pull toward your lower stomach. Squeeze shoulder blades together at the back — hold for 1 second — then slowly extend. Don't round your back. Think "proud chest" throughout the movement. Back rowing builds the mid-back muscles that hold your spine tall and upright all day.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Shoulder Press Machine</div>
+<div class="ex-machine">Selectorized Shoulder Press</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1581009137042-c552e485697a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1589579234096-25b7ef21f0f7?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Handles at shoulder height. Press up until nearly extended, lower for 3 slow seconds. Toned shoulders create a beautiful cap on the arm and widen the upper frame — making your waist appear naturally slimmer by comparison. Keep the weight light; shoulders are a small muscle that responds to control, not heavy loads.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">Ab Crunch Machine</div>
+<div class="ex-machine">Abdominal Crunch Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 30–45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Hold lightly — don't pull with your arms. Bring your ribcage toward your hips using only your abs. Hold the crunch for 1 second. Exhale on the crunch, inhale on the release. Core training is about quality of contraction. Keep weight very light and focus on feeling the abs work every single rep.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Torso Rotation Machine</div>
+<div class="ex-machine">Rotary Torso Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 12 each side</div>
+<div class="pill r"><span class="pk">Rest</span> 30 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Rotate your upper body using your obliques — the side muscles of the core. Slow return, don't let it snap back. Complete all reps one side, then turn around. Oblique strength defines the waist and creates the hourglass silhouette. Use the lightest resistance setting to start.</div>
+</div>
+</div>
+<div class="tip"><strong>✦ Core Tip</strong>Core training works best with full intention — slow, deliberate reps with a 1-second hold beat fast sloppy reps every time. Your core is also working during every other machine exercise this week, which means it's getting more training than it looks like. Trust the process.</div>
+</section>
+<!-- ── IKU REST THU ── -->
+<div class="sdiv"><span class="sdiv-txt">Thursday · Rest</span></div>
+<section class="day-section">
+<div class="day-hdr rest-hdr">
+<div class="day-big-num">—</div>
+<div class="day-meta">
+<div class="day-sup">Recovery</div>
+<div class="day-title">Rest Day</div>
+</div>
+</div>
+<div class="rest-card">
+<div class="rest-ico">🛁</div>
+<div>
+<h3>Rest &amp; Recharge</h3>
+<p>Your upper body and core need 48 hours before Friday's full-body session. Light yoga, stretching, or a gentle walk is perfectly fine. The more consistently you sleep 7–8 hours this week, the better your results — sleep is when transformation happens.</p>
+<div class="rest-tags">
+<span class="rtag">🧘‍♀️ Gentle stretching OK</span>
+<span class="rtag">💧 Stay hydrated</span>
+<span class="rtag">😴 8 hrs sleep tonight</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ── IKU DAY 3 ── -->
+<div class="sdiv"><span class="sdiv-txt">Day 3 · Friday</span></div>
+<section class="day-section" id="i-d3">
+<div class="day-hdr">
+<div class="day-big-num">03</div>
+<div class="day-meta">
+<div class="day-sup">Day 3 · Full Body</div>
+<div class="day-title">Total Body Activation</div>
+<div class="day-chips">
+<span class="chip chip-a">🔥 Full Body</span>
+<span class="chip chip-b">~50 min</span>
+<span class="chip chip-g">6 exercises</span>
+</div>
+</div>
+</div>
+<div class="exercises">
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">1</div><div class="ex-body">
+<div class="ex-name">Leg Press <span class="tag-glute">Glute Focus</span></div>
+<div class="ex-machine">Leg Press Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 60 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Same setup as Monday — feet high and wide, push through heels, squeeze glutes at the top. Second glute session of the week. Notice if the movement feels more natural than Day 1. You're building the habit and the muscle simultaneously.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">2</div><div class="ex-body">
+<div class="ex-name">Hip Abductor Machine <span class="tag-glute">Glute Focus</span></div>
+<div class="ex-machine">Hip Abductor Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Pads on the outside of your knees. Push legs apart and squeeze the outer glute at full range. Only 2 sets today — this is reinforcement, not max effort. Glutes hit twice a week in this plan for accelerated development.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">3</div><div class="ex-body">
+<div class="ex-name">Chest Press Machine</div>
+<div class="ex-machine">Selectorized Chest Press</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1534368959876-26bf04f2c947?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Push the handles from chest height until arms extend, then return slowly. Don't skip chest — it tones the upper body and the back of the arms, which is visible in every tank top and dress. A toned chest makes the whole upper body look athletic and strong.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">4</div><div class="ex-body">
+<div class="ex-name">Lat Pulldown</div>
+<div class="ex-machine">Lat Pulldown Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 12</div>
+<div class="pill r"><span class="pk">Rest</span> 45 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1597452485595-4e4853c2c1f2?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Pull the bar toward your upper chest, elbows driving down. Second back session this week. You'll likely feel this exercise working better than Wednesday — that's real, measurable adaptation already happening in Week 1.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">5</div><div class="ex-body">
+<div class="ex-name">Ab Crunch Machine</div>
+<div class="ex-machine">Abdominal Crunch Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 3</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 30 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Third core session of the week. Focus on the slow exhale and deliberate contraction. By the 3rd set you should feel a light burn — that's exactly what you want. Consistent core training twice a week builds the foundation that makes everything else look better.</div>
+</div>
+<div class="ex-card">
+<div class="ex-top"><div class="ex-n">6</div><div class="ex-body">
+<div class="ex-name">Leg Extension</div>
+<div class="ex-machine">Leg Extension Machine</div>
+<div class="ex-pills">
+<div class="pill"><span class="pk">Sets</span> 2</div>
+<div class="pill"><span class="pk">Reps</span> 15</div>
+<div class="pill r"><span class="pk">Rest</span> 30 sec</div>
+</div>
+</div></div>
+<div class="ex-img-row"><div class="ex-img-wrap"><img alt="Machine" loading="lazy" src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Machine</div></div><div class="ex-img-wrap"><img alt="Exercise" loading="lazy" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=300&amp;h=200&amp;fit=crop"/><div class="ex-img-label">Exercise</div></div></div><div class="ex-how">Extend legs up, hold 1 second at the top, lower slowly. Tones and defines the front of the thigh. This gives the legs complete coverage for the week — glutes, hamstrings, outer hips, and now quads. Every angle, every muscle group.</div>
+</div>
+</div>
+<div class="tip"><strong>✦ IKU Week 1 Complete! 🎉</strong>You showed up 3 times — that's the hardest part of any transformation. Write down your weights. Come back Week 2 and try to add 5 lbs on the leg press and 1 extra rep on everything else. You won't see dramatic changes in Week 1, but your body has already started adapting. By Week 4 you will <em>feel</em> completely different.</div>
+</section>
+<!-- Weekend rest -->
+<div class="sdiv"><span class="sdiv-txt">Weekend · Rest</span></div>
+<section class="day-section">
+<div class="day-hdr rest-hdr">
+<div class="day-big-num">—</div>
+<div class="day-meta">
+<div class="day-sup">Full Weekend Recovery</div>
+<div class="day-title">Rest &amp; Reset</div>
+</div>
+</div>
+<div class="rest-card">
+<div class="rest-ico">🌸</div>
+<div>
+<h3>Weekend Recovery</h3>
+<p>Two full rest days to close Week 1. Enjoy your weekend — walking, dancing, swimming are all wonderful. Use the weekend to meal prep high-protein foods. Your transformation is built in the kitchen just as much as the gym.</p>
+<div class="rest-tags">
+<span class="rtag">🍗 Meal prep proteins</span>
+<span class="rtag">🚶‍♀️ Stay gently active</span>
+<span class="rtag">📓 Log Week 1 weights</span>
+<span class="rtag">💪 Back Monday!</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="footer">Female Plan · <strong>Week 1 of 8</strong> · Choose weights that challenge you without breaking your form. You've got this. ✦</footer>
+</div><!-- /panel-iku -->
+<script>
+function switchPlan(plan) {
+  // Toggle body class
+  document.body.className = plan;
+
+  // Toggle panels
+  document.getElementById('panel-beast').classList.toggle('active', plan === 'beast');
+  document.getElementById('panel-iku').classList.toggle('active', plan === 'iku');
+
+  // Toggle nav buttons
+  const bBtn = document.getElementById('btn-beast');
+  const iBtn = document.getElementById('btn-iku');
+  bBtn.className = 'switch-btn' + (plan === 'beast' ? ' active-beast' : '');
+  iBtn.className = 'switch-btn' + (plan === 'iku' ? ' active-iku' : '');
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
